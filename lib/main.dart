@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import './models/data_layer.dart';
 import './views/plan_screen.dart';
-import './provider/plan_provider.dart'; // pastikan path sesuai lokasi file provider-mu
-import './models/data_layer.dart';   // jika Plan didefinisikan di sini
 
-void main() => runApp(const MasterPlanApp());
+void main() => runApp(MasterPlanApp());
 
 class MasterPlanApp extends StatelessWidget {
   const MasterPlanApp({super.key});
@@ -13,8 +12,8 @@ class MasterPlanApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       home: PlanProvider(
-        notifier: ValueNotifier<Plan>(const Plan()), // menyediakan state Plan
-        child: const PlanScreen(), // halaman utama
+        notifier: ValueNotifier<Plan>(const Plan()),
+        child: const PlanScreen(),
       ),
     );
   }
