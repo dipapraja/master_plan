@@ -10,6 +10,16 @@ class PlanScreen extends StatefulWidget {
 
 class _PlanScreenState extends State<PlanScreen> {
   Plan plan = const Plan();
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController()
+      ..addListener(() {
+        FocusScope.of(context).requestFocus(FocusNode());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +29,12 @@ class _PlanScreenState extends State<PlanScreen> {
       body: _buildList(), // nanti akan dibuat di langkah selanjutnya
       floatingActionButton: _buildAddTaskButton(),
     );
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   // Tombol Tambah Rencana
@@ -40,12 +56,17 @@ class _PlanScreenState extends State<PlanScreen> {
 // Menampilkan daftar task
   Widget _buildList() {
     return ListView.builder(
+      controller: scrollController,
+      keyboardDismissBehavior:
+          Theme.of(context).platform == TargetPlatform.iOS
+              ? ScrollViewKeyboardDismissBehavior.onDrag
+              : ScrollViewKeyboardDismissBehavior.manual,
       itemCount: plan.tasks.length,
       itemBuilder: (context, index) =>
           _buildTaskTile(plan.tasks[index], index),
     );
   }
-  
+
 // Tile untuk setiap task
   Widget _buildTaskTile(Task task, int index) {
     return ListTile(
